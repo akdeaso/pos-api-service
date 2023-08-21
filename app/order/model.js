@@ -15,10 +15,10 @@ const orderSchema = Schema(
       default: 0,
     },
     delivery_address: {
-      provinsi: { type: String, required: [true, "Provinsi is required"] },
-      kabupaten: { type: String, required: [true, "Kabupaten is required"] },
-      kecamatan: { type: String, required: [true, "Kecamatan is required"] },
-      kelurahan: { type: String, required: [true, "Kelurahan is required"] },
+      provinsi: { type: String, required: [true, "provinsi is required"] },
+      kabupaten: { type: String, required: [true, "kabupaten is required"] },
+      kecamatan: { type: String, required: [true, "kecamatan is required"] },
+      kelurahan: { type: String, required: [true, "kelurahan is required"] },
       detail: { type: String },
     },
     user: {
@@ -45,7 +45,7 @@ orderSchema.post("save", async function () {
   let invoice = new Invoice({
     user: this.user,
     order: this._id,
-    sub_total: sub_total,
+    sub_total,
     delivery_fee: parseInt(this.delivery_fee),
     total: parseInt(sub_total + this.delivery_fee),
     delivery_address: this.delivery_address,
