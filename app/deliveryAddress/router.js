@@ -1,6 +1,6 @@
+const router = require("express").Router();
 const { police_check } = require("../../middlewares");
 const deliveryAddressController = require("./controller");
-const router = require("express").Router();
 
 router.get(
   "/delivery-addresses",
@@ -8,7 +8,7 @@ router.get(
   deliveryAddressController.index
 );
 router.post(
-  "delivery-addresses",
+  "/delivery-addresses",
   police_check("create", "DeliveryAddress"),
   deliveryAddressController.store
 );

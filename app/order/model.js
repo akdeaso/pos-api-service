@@ -25,7 +25,7 @@ const orderSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    oder_items: [{ type: Schema.Types.ObjectId, ref: "OrderItem" }],
+    order_items: [{ type: Schema.Types.ObjectId, ref: "OrderItem" }],
   },
   { timestamps: true }
 );

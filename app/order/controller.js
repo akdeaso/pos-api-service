@@ -17,13 +17,15 @@ const index = async (req, res, next) => {
       data: orders.map((order) => order.toJSON({ virtuals: true })),
       count,
     });
-  } catch (error) {
-    if (err && err.name == "ValidationError") {
+  } catch (err) {
+    if (err && err.name === "ValidationError") {
       return res.json({
         error: 1,
         message: err.message,
         fields: err.errors,
       });
+    } else {
+      console.log(err);
     }
     next(err);
   }
@@ -57,7 +59,8 @@ const store = async (req, res, next) => {
       items.map((item) => ({
         ...item,
         name: item.product.name,
-        qty: parseInt(item.product.price),
+        qty: parseInt(item.qty),
+        price: parseInt(item.product.price),
         order: order._id,
         product: item.product._id,
       }))
@@ -66,13 +69,15 @@ const store = async (req, res, next) => {
     order.save();
     await CartItem.deleteMany({ user: req.user._id });
     return res.json(order);
-  } catch (error) {
+  } catch (err) {
     if (err && err.name == "ValidationError") {
       return res.json({
         error: 1,
         message: err.message,
         fields: err.errors,
       });
+    } else {
+      console.log(err);
     }
     next(err);
   }

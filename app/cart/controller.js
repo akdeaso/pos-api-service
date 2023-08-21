@@ -5,8 +5,8 @@ const index = async (req, res, next) => {
   try {
     let items = await CartItem.find({ user: req.user._id }).populate("product");
     return res.json(items);
-  } catch (error) {
-    if (err && err.name == "ValidationError") {
+  } catch (err) {
+    if (err && err.name === "ValidationError") {
       return res.json({
         error: 1,
         message: err.message,
@@ -20,7 +20,7 @@ const index = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const { items } = req.body;
-    const productIds = items.ap((item) => item.product._id);
+    const productIds = items.map((item) => item.product._id);
     const products = await Product.find({ _id: { $in: productIds } });
     let cartItems = items.map((item) => {
       let relatedProduct = products.find(
@@ -51,14 +51,14 @@ const update = async (req, res, next) => {
       })
     );
     return res.json(cartItems);
-  } catch (error) {
+  } catch (err) {
     if (err && err.name == "ValidationError") {
       return res.json({
         error: 1,
         message: err.message,
         fields: err.errors,
       });
-    }
+    } else console.log(err);
     next(err);
   }
 };
